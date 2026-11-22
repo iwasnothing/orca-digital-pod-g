@@ -1,0 +1,53 @@
+{
+  "ticketId": "ORCA-6dedf3f2",
+  "vizStatus": "published",
+  "widget": "GraphicWalker",
+  "title": "Hong Kong 2026 year-to-date monthly mean temperature (\u00b0C), 1 Jan\u201322 Nov (Open-Meteo; year incomplete: Dec not yet observed)",
+  "rows": [
+    {
+      "label": "Jan",
+      "value": 15.9
+    },
+    {
+      "label": "Feb",
+      "value": 18.7
+    },
+    {
+      "label": "Mar",
+      "value": 20.1
+    },
+    {
+      "label": "Apr",
+      "value": 23.8
+    },
+    {
+      "label": "May",
+      "value": 25.4
+    },
+    {
+      "label": "Jun",
+      "value": 27.2
+    },
+    {
+      "label": "Jul",
+      "value": 27.2
+    },
+    {
+      "label": "Aug",
+      "value": 28.2
+    },
+    {
+      "label": "Sep",
+      "value": 27.2
+    },
+    {
+      "label": "Oct",
+      "value": 26.3
+    },
+    {
+      "label": "Nov",
+      "value": 22.3
+    }
+  ],
+  "verifiedVia": "GET http://127.0.0.1:8877/api/tickets/ORCA-6dedf3f2/visualization"
+}

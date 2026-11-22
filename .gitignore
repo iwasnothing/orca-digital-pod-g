@@ -3,3 +3,24 @@ node_modules/
 .github_repo
 .env
 .env.*
+!.env.example
+
+.env.example
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+workspace/.kanban/
+workspace/workers/
+ticket-attachments/
+logs/
+*.log
+.pytest_cache/
+tickets/*.md
+!tickets/TEMPLATE.md
+workspace/
+ticket-attachments/
+
+# Build / runtime (do not commit)
+.vercel/
+*.pid
