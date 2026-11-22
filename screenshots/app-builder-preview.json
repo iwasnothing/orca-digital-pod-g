@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Orca Digital Pod",
+      "hasCanvas": false,
+      "bodyTextLen": 720,
+      "bodyTextHash": "e8e4041ea2bed7243b45e6266703e25ddd4d51eb9dc7b99468d24e5e58a4e21b",
+      "bodyTextPrefix": "Orca DIGITAL POD Console 1 Reset Control plane Board and gate Or",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Orca Digital Pod",
+      "hasCanvas": false,
+      "bodyTextLen": 596,
+      "bodyTextHash": "cdafc7dfe6b20e693ab1b6e42f700e21eeeadb9bdcaeceed86ae5125dd1bd2aa",
+      "bodyTextPrefix": "Orca DIGITAL POD Reset Control plane Board and gate Orca runtime",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}

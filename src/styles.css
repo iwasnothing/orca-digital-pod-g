@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --color-paper: #efe6d4;
+  --color-paper-2: #f7f1e4;
+  --color-card: #fbf7ef;
+  --color-ink: #1a2420;
+  --color-ink-soft: #3c4a44;
+  --color-muted: #6a776f;
+  --color-line: #d8cfbc;
+  --color-teal: #0e6b66;
+  --color-teal-deep: #0a4c49;
+  --color-foam: #d5eee6;
+  --color-copper: #a24e28;
+  --color-copper-soft: #f4e1d4;
+
+  --shadow-card:
+    0px 0px 0px 1px rgba(26, 36, 32, 0.08), 0px 1px 2px -1px rgba(26, 36, 32, 0.06),
+    0px 10px 24px -16px rgba(26, 36, 32, 0.35);
+  --shadow-card-hover:
+    0px 0px 0px 1px rgba(14, 107, 102, 0.45), 0px 8px 20px -12px rgba(26, 36, 32, 0.28);
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  input:not([type="checkbox"]):not([type="radio"]),
+  textarea,
+  select {
+    width: 100%;
+    min-height: 2.75rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-line);
+    background: var(--color-paper);
+    color: var(--color-ink);
+    padding: 0.5rem 0.75rem;
+    font: inherit;
+  }
+
+  textarea {
+    min-height: 8rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  input:not([type="checkbox"]):not([type="radio"]):focus,
+  textarea:focus,
+  select:focus {
+    outline: 2px solid var(--color-teal);
+    outline-offset: 1px;
+  }
+
+  ::selection {
+    background: var(--color-foam);
+    color: var(--color-ink);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
