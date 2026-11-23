@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { Button, Field, Modal, StatusPill } from "@/components/orca/ui";
-import type { ActionResult } from "@/lib/orca/logic";
+import type { ActionResult } from "@/lib/orca/store";
 import { usePod } from "@/lib/orca/store";
 import type { Harness, Risk } from "@/lib/orca/types";
 
@@ -34,14 +34,15 @@ export function IntakeDialog({ open, onOpenChange, onCreated }: { open: boolean;
         className="space-y-4"
         onSubmit={(event) => {
           event.preventDefault();
-          const result = intake({ objective, harness, attachment });
-          tell(result);
-          if (result.ok) {
-            setObjective("");
-            setAttachment(null);
-            onOpenChange(false);
-            if (result.ticketId) onCreated(result.ticketId);
-          }
+          void intake({ objective, harness, attachment }).then((result) => {
+            tell(result);
+            if (result.ok) {
+              setObjective("");
+              setAttachment(null);
+              onOpenChange(false);
+              if (result.ticketId) onCreated(result.ticketId);
+            }
+          });
         }}
       >
         <Field label="Objective">
@@ -119,10 +120,10 @@ export function GateList() {
             <p className="mt-1 font-mono text-xs">{gate.command}</p>
             <p className="mt-1 text-xs text-ink-soft">{gate.reason}</p>
             <div className="mt-2 flex gap-2">
-              <Button type="button" onClick={() => tell(resolveGate(gate.id, "approve"))}>
+              <Button type="button" onClick={() => void resolveGate(gate.id, "approve").then(tell)}>
                 Approve
               </Button>
-              <Button type="button" variant="ghost" onClick={() => tell(resolveGate(gate.id, "deny"))}>
+              <Button type="button" variant="ghost" onClick={() => void resolveGate(gate.id, "deny").then(tell)}>
                 Deny
               </Button>
             </div>
@@ -166,8 +167,7 @@ export function WatchPanel() {
         type="button"
         variant="ink"
         onClick={() => {
-          tickWatchdog();
-          toast("Watchdog cycle finished");
+          void tickWatchdog().then(() => toast("Watchdog cycle finished"));
         }}
       >
         Run a cycle
@@ -186,13 +186,13 @@ export function WatchPanel() {
               </p>
               <p className="mt-1 text-xs text-ink-soft">{beat?.output}</p>
               <div className="mt-2 flex flex-wrap gap-2">
-                <Button type="button" variant="ghost" onClick={() => tell(workerAction(worker.id, "nudge"))}>
+                <Button type="button" variant="ghost" onClick={() => void workerAction(worker.id, "nudge").then(tell)}>
                   Nudge
                 </Button>
-                <Button type="button" variant="ghost" onClick={() => tell(workerAction(worker.id, "resume"))}>
+                <Button type="button" variant="ghost" onClick={() => void workerAction(worker.id, "resume").then(tell)}>
                   Resume
                 </Button>
-                <Button type="button" variant="ghost" onClick={() => tell(workerAction(worker.id, "restart"))}>
+                <Button type="button" variant="ghost" onClick={() => void workerAction(worker.id, "restart").then(tell)}>
                   Restart
                 </Button>
               </div>
@@ -232,9 +232,10 @@ export function WorkerForm() {
       className="space-y-3"
       onSubmit={(event) => {
         event.preventDefault();
-        const result = registerWorker({ name, harness, model, autoApproveTier: tier });
-        tell(result);
-        if (result.ok) setName("");
+        void registerWorker({ name, harness, model, autoApproveTier: tier }).then((result) => {
+          tell(result);
+          if (result.ok) setName("");
+        });
       }}
     >
       <h2 className="font-display text-xl">Add a worker</h2>

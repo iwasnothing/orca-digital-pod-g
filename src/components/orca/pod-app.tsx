@@ -15,7 +15,9 @@ export function PodApp() {
   const heartbeats = usePod((state) => state.heartbeats);
   const pending = usePod((state) => state.gates.filter((gate) => gate.status === "pending").length);
   const supervision = usePod((state) => state.supervision);
-  const tickWatchdog = usePod((state) => state.tickWatchdog);
+  const connect = usePod((state) => state.connect);
+  const error = usePod((state) => state.error);
+  const connected = usePod((state) => state.connected);
   const reset = usePod((state) => state.reset);
   const [pane, setPane] = useState<Pane>("board");
   const [selected, setSelected] = useState<string | null>(null);
@@ -23,15 +25,7 @@ export function PodApp() {
   const [consoleOpen, setConsoleOpen] = useState(false);
   const [armedReset, setArmedReset] = useState(false);
 
-  useEffect(() => {
-    void usePod.persist.rehydrate();
-  }, []);
-
-  useEffect(() => {
-    if (!supervision) return;
-    const timer = window.setInterval(() => tickWatchdog(), 20000);
-    return () => window.clearInterval(timer);
-  }, [supervision, tickWatchdog]);
+  useEffect(() => connect(), [connect]);
 
   useEffect(() => {
     if (!armedReset) return;
@@ -69,16 +63,20 @@ export function PodApp() {
                   setArmedReset(true);
                   return;
                 }
-                reset();
-                setSelected(null);
-                setArmedReset(false);
-                toast("Board restored");
+                void reset().then(() => {
+                  setSelected(null);
+                  setArmedReset(false);
+                  toast("Board reloaded from the server");
+                });
               }}
             >
               {armedReset ? "Confirm reset" : "Reset"}
             </button>
           </div>
         </div>
+        {!connected && error ? (
+          <p className="px-4 pb-3 text-sm text-copper lg:px-6">Control plane unreachable: {error}</p>
+        ) : null}
         <div className="flex gap-2 overflow-x-auto px-4 pb-3 lg:px-6">
           {heartbeats.map((beat) => (
             <span key={beat.component} className="inline-flex shrink-0 items-center gap-2 rounded-full bg-card px-3 py-1 text-xs shadow-card">

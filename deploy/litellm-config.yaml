@@ -1,0 +1,8 @@
+# Optional LiteLLM config (the default sidecar is app/llm_proxy.py).
+# Use only if you prefer `litellm --config deploy/litellm-config.yaml --port 4000`.
+model_list:
+  - model_name: default
+    litellm_params:
+      model: openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
+      api_key: os.environ/CUSTOM_LLM_API_KEY
+      api_base: os.environ/CUSTOM_LLM_ENDPOINT

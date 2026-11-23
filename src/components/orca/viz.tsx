@@ -361,13 +361,15 @@ export function VizEditor({ ticketId }: { ticketId: string }) {
         <Button
           type="button"
           onClick={() => {
-            const result = publish(ticket.id, draft, base, skip);
-            announce(result.ok, result.gap, result.conflict, result.message);
-            if (result.viz) {
-              setDraft(result.viz);
-              setBase(result.viz.revision);
-              setConflict(false);
-            } else if (result.conflict) setConflict(true);
+            void publish(ticket.id, draft, base, skip).then((result) => {
+              announce(result.ok, !!result.gap, !!result.conflict, result.message);
+              if (result.ok) {
+                setBase(draft.revision);
+                setConflict(false);
+              } else if (result.conflict || /409|conflict/i.test(result.message)) {
+                setConflict(true);
+              }
+            });
           }}
         >
           Publish widget
