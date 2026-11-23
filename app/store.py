@@ -7,6 +7,8 @@ import sqlite3
 import threading
 from datetime import datetime, timezone
 from pathlib import Path
+
+from app.workspace_fs import flatten_files
 from typing import Any
 from uuid import uuid4
 
@@ -523,22 +525,7 @@ def board_state() -> BoardState:
         wid = t.assigned_worker_id
         if not wid or wid not in workers:
             continue
-        root = Path(workers[wid].worktree_path)
-        files: dict[str, str] = {}
-        if root.exists():
-            for f in root.rglob("*"):
-                if not f.is_file():
-                    continue
-                rel = f.relative_to(root).as_posix()
-                if rel.startswith(".") or "/." in rel or rel.startswith(".git"):
-                    continue
-                if f.stat().st_size > 80_000:
-                    continue
-                try:
-                    files[rel] = f.read_text()[:80_000]
-                except (UnicodeDecodeError, OSError):
-                    continue
-        t.files = files
+        t.files = flatten_files(Path(workers[wid].worktree_path))
     return BoardState(
         workers=list_workers(),
         tickets=tickets,

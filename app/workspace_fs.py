@@ -50,6 +50,16 @@ def write_file(root: Path, rel: str, content: str) -> Path:
     return target
 
 
+SKIP_DIR_NAMES = {
+    ".git",
+    "node_modules",
+    "__pycache__",
+    ".venv",
+    "venv",
+    ".pytest_cache",
+}
+
+
 def flatten_files(root: Path, limit: int = 80_000) -> dict[str, str]:
     files: dict[str, str] = {}
     if not root.exists():
@@ -58,7 +68,8 @@ def flatten_files(root: Path, limit: int = 80_000) -> dict[str, str]:
         if not f.is_file():
             continue
         rel = f.relative_to(root).as_posix()
-        if rel.startswith(".git") or "/.git/" in rel or rel.endswith(".pyc"):
+        parts = set(Path(rel).parts)
+        if parts & SKIP_DIR_NAMES or rel.endswith(".pyc"):
             continue
         if f.stat().st_size > limit:
             continue
